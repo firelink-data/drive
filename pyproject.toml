@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "drive-llm"
+version = "0.1.0"
+description = ""
+authors = [
+    "Wilhelm Ågren <wilhelmagren98@gmail.com>",
+]
+
+license = "LICENSE"
+readme = "README.md"
+
+packages = [ { include = "src/drive" } ]
+homepage = "https://github.com/firelink-data/drive"
+repository = "https://github.com/firelink-data/drive"
+
+[tool.poetry.urls]
+"Homepage" = "https://github.com/firelink-data/drive"
+"Bug tracker" = "https://github.com/firelink-data/drive/issues"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+
+
+[build-system]
+requires = [ "poetry-core" ]
+build-backend = "poetry.core.masonry.api"
