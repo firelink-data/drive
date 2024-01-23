@@ -25,9 +25,13 @@ File created: 2024-01-23
 Last updated: 2024-01-23
 """
 
+import logging
+import os
 import click
 
 __all__ = ("kafka_group",)
+
+log = logging.getLogger(__name__)
 
 
 @click.group()
@@ -39,13 +43,19 @@ def kafka():
 @kafka.command()
 def start():
     """ 🟢 Start the Kafka cluster. """
-    pass
+
+    log.info("starting the Kafka server...")
+    os.system('su - kafka -c "kafka/bin/kafka-server-start.sh kafka/config/kraft/server.properties &"')
+    log.info("OK!")
 
 
 @kafka.command()
 def stop():
     """ 🔴 Stop the Kafka cluster. """
-    pass
+
+    log.info("stopping the Kafka server...")
+    os.system('su - kafka -c "kafka/bin/kafka-server-stop.sh kafka/config/kraft/server.properties &"')
+    log.info("OK!")
 
 
 kafka_group = kafka
