@@ -38,13 +38,13 @@ def kafka():
 
 @kafka.command()
 def start():
-    """ """
+    """ 🟢 Start the Kafka cluster. """
     pass
 
 
 @kafka.command()
 def stop():
-    """ """
+    """ 🔴 Stop the Kafka cluster. """
     pass
 
 

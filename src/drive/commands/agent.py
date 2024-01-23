@@ -39,19 +39,19 @@ def agent():
 
 @agent.command()
 def create():
-    """ """
+    """ 📝 Create a new agent, either from prompts or template. """
     pass
 
 
 @agent.command()
 def start():
-    """ """
+    """ 🟢 Start an existing agent."""
     pass
 
 
 @agent.command()
 def stop():
-    """ """
+    """ 🔴 Stop an existing agent that is alive. """
     pass
 
 
