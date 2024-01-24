@@ -22,34 +22,43 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 File created: 2024-01-23
-Last updated: 2024-01-23
+Last updated: 2024-01-24
 """
 
 import click
+import os
 
 
 __all__ = ("agent_group",)
 
 
-@click.group()
+@click.group(name="agent")
 def agent():
     """ 🤖 Tools to manage your LLM agents. """
     pass
 
 
-@agent.command()
+@agent.command(name="create")
 def create():
-    """ 📝 Create a new agent, either from prompts or template. """
+    """ 📝 Create a new agent container, either custom or from templates. """
     pass
 
 
-@agent.command()
+@agent.command("build")
+def build():
+    """ 👷 Build the docker container for the agent. """
+
+    os.system("sudo docker build -t agent-bond ~/.drive/agents/Bond")
+
+
+@agent.command(name="start")
 def start():
     """ 🟢 Start an existing agent."""
-    pass
+
+    os.system("sudo docker run agent-bond")
 
 
-@agent.command()
+@agent.command(name="stop")
 def stop():
     """ 🔴 Stop an existing agent that is alive. """
     pass
