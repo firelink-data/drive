@@ -7,10 +7,9 @@ on:
 jobs:
   lint:
     name: Ruff lint
-    runs-on: ${{ matrix.os }}
+    runs-on: [self-hosted]
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
         python: [ '3.10.x' ]
     steps:
       - name: Checkout
