@@ -1,7 +1,8 @@
 import logging
+import os
 import langchain  # noqa
 from .tools import *  # noqa
-from confluent_kafka import Consumer
+from confluent_kafka import Consumer, Message
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ class Agent(object):
         """ """
 
         consumer = Consumer({
-            "bootstrap.servers": "localhost:9093",
+            "bootstrap.servers": f"{os.environ['KAFKA_SERVER_IP']}:9092",
             "group.id": "agent",
             "auto.offset.reset": "earliest",
         })
@@ -24,7 +25,7 @@ class Agent(object):
         self._consumer = consumer
         self._topics = topics
 
-    def handle_message(self, msg: str):
+    def handle_message(self, msg: Message):
         """ This is were you would implement your agent logic. """
 
         log.info(f"got this message from Kafka: {msg}")
