@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 File created: 2024-01-23
-Last updated: 2024-01-24
+Last updated: 2024-01-27
 """
 
 import click
 import os
-
+import subprocess
 
 __all__ = ("agent_group",)
 
@@ -55,7 +55,13 @@ def build():
 def start():
     """ 🟢 Start an existing agent."""
 
-    os.system("sudo docker run agent-bond")
+    kafka_server_ip = subprocess.getoutput(
+        "/sbin/ip a | awk '/inet 192/ { print $2 }'",
+    ).split("/")[0]
+
+    print(kafka_server_ip)
+
+    os.system(f"sudo docker run --env KAFKA_SERVER_IP={kafka_server_ip} --env KAFKA_SERVER_PORT=19092 agent-bond")
 
 
 @agent.command(name="stop")
