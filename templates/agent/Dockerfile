@@ -9,6 +9,4 @@ RUN apk add gcc && \
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD export KAFKA_SERVER_IP="$(/sbin/ip route | awk '/default/ { print $3 }')"; \
-    python start.py
-
+CMD python start.py
