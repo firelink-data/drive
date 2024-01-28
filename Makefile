@@ -10,3 +10,10 @@ install:
 test:
 	poetry run pytest tests
 
+.PHONY: format
+format:
+	poetry run black src/drive tests
+
+.PHONY: lint
+lint:
+	poetry run ruff check src/drive tests --fix
