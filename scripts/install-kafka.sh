@@ -1,4 +1,36 @@
 #!/bin/bash
+#
+# MIT License
+#
+# Copyright (c) 2024 Firelink Data
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+#
+# Install Kafka (KRaft mode) version 3.6.1 on your system under a dedicated 'kafka' user.
+# Will download the Kafka binaries from the apache archives, set up KRaft logging and
+# metadata configuration, create advertised listener on port 19092 dedicated for 
+# Docker containers, and set your (current) localhost ip on the Docker listener.
+#
+# File created: 2024-01-24
+# Last updated: 2024-01-28
+#
 
 if [[ $EUID -ne 0 ]]; then
     printf " 🔒 THIS SCRIPT MUST BE RUN AS ROOT! Please use 'sudo $0' instead.\n" 1>&2
@@ -16,7 +48,7 @@ function query_user()
 {
     printf "$1\n"
     while true; do
-        read -p "Proceed with doing this? [y\\n] " yn
+        read -p " Proceed with doing this? [y\\n] " yn
         case $yn in
             [Yy]* ) printf "$2\n"; break;;
             [Nn]* ) printf " ❌ You chose 'no', exiting..."; exit;;
