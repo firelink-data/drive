@@ -58,7 +58,7 @@ function query_user()
 }
 
 if id "kafka" >/dev/null 2>&1; then
-    query_user " ❓ You already have a 'kafka' user on your system!\n    If you don't have anything important already on that user, we would recommend\n    to remove it and let this script set the user up again. Do you want to use\n    the existing 'kafka' user for installing a fresh Kafka version 3.6.1?" \
+    query_user " ❓ You already have a 'kafka' user on your system!\n    If you don't have anything important already on that user, we would recommend\n    to remove it and let this script set the user up again. Do you want to use\n    the existing 'kafka' user for installing a fresh Kafka 3.6.1 version?" \
         " ❗ Will use your existing user, this is not the standard procedure, might lead to unexpected behaviour..."
 else
     query_user "\n ✅ Setting up a user 'kafka' with sudo privileges." " Please follow the on-screen prompts."
@@ -83,5 +83,8 @@ printf " Kafka log path:\t\t\t$KAFKA_LIB_PATH\n"
 printf " KRaft combined logs path:\t\t$KAFKA_COMBINED_LOG_PATH\n"
 printf " KRaft metadata logs path:\t\t$KAFKA_METADATA_LOG_PATH\n"
 printf " Advertised listeners:\t\t\tPLAINTEXT:9092,DOCKER_CLIENT:19092\n"
+printf " Num network threads:\t\t\t3\n"
+printf " Num IO threads:\t\t\t8\n"
+printf " Num partitions:\t\t\t1\n"
 printf " KAFKA_CLUSTER_IP (your localhost ip):\t$KAFKA_CLUSTER_IP\n"
 
