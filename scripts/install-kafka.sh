@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ $EUID -ne 0 ]]; then
+    printf " 🔒 THIS SCRIPT MUST BE RUN AS ROOT! Please use 'sudo $0' instead.\n" 1>&2
+    exit 1
+fi
+
 KAFKA_CLUSTER_IP="$(/sbin/ip a | awk '/inet 192/ { print $2 }')"
 KAFKA_CLUSTER_IP=(${KAFKA_CLUSTER_IP//// })
 
@@ -41,9 +46,10 @@ env KAFKA_CLUSTER_IP=$KAFKA_CLUSTER_IP su kafka bash -c 'cd ~/kafka/config/kraft
 query_user "\n ✅ Generating a Kafka cluster UUID and formatting log storage with your config." " ✅ Last step!"
 su kafka bash -c 'cd ~/kafka; export KAFKA_CLUSTER_ID="$(./bin/kafka-storage.sh random-uuid)"; ./bin/kafka-storage.sh format -t $KAFKA_CLUSTER_ID -c config/kraft/server.properties'
 
-printf "\n\n 🚀 Success! Kafka 3.6.1 (KRaft mode) is now installed on your 'kafka' user.\n\n" 
+printf "\n\n 🚀✨ Success! Kafka 3.6.1 (KRaft mode) is now installed on the 'kafka' user.\n\n" 
 printf " Kafka log path:\t\t\t$KAFKA_LIB_PATH\n"
 printf " KRaft combined logs path:\t\t$KAFKA_COMBINED_LOG_PATH\n"
 printf " KRaft metadata logs path:\t\t$KAFKA_METADATA_LOG_PATH\n"
 printf " KAFKA_CLUSTER_IP (your host ip):\t$KAFKA_CLUSTER_IP\n"
+printf " Advertised listeners:\t\tPLAINTEXT:9092,DOCKER_CLIENT:19092\n"
 
