@@ -34,26 +34,26 @@ __all__ = ("agent_group",)
 
 @click.group(name="agent")
 def agent():
-    """ 🤖 Tools to manage your LLM agents. """
+    """🤖 Tools to manage your LLM agents."""
     pass
 
 
 @agent.command(name="create")
 def create():
-    """ 📝 Create a new agent container, either custom or from templates. """
+    """📝 Create a new agent container, either custom or from templates."""
     pass
 
 
 @agent.command("build")
 def build():
-    """ 👷 Build the docker container for the agent. """
+    """👷 Build the docker container for the agent."""
 
     os.system("sudo docker build -t agent-bond ~/.drive/agents/Bond")
 
 
 @agent.command(name="start")
 def start():
-    """ 🟢 Start an existing agent."""
+    """🟢 Start an existing agent."""
 
     kafka_server_ip = subprocess.getoutput(
         "/sbin/ip a | awk '/inet 192/ { print $2 }'",
@@ -61,12 +61,14 @@ def start():
 
     print(kafka_server_ip)
 
-    os.system(f"sudo docker run --env KAFKA_SERVER_IP={kafka_server_ip} --env KAFKA_SERVER_PORT=19092 agent-bond")
+    os.system(
+        f"sudo docker run --env KAFKA_SERVER_IP={kafka_server_ip} --env KAFKA_SERVER_PORT=19092 agent-bond"
+    )
 
 
 @agent.command(name="stop")
 def stop():
-    """ 🔴 Stop an existing agent that is alive. """
+    """🔴 Stop an existing agent that is alive."""
     pass
 
 

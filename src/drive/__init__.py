@@ -36,18 +36,16 @@ log.setLevel(os.getenv("LOGLEVEL", logging.INFO))
 
 
 def set_log_level(level: int) -> None:
-    """ Set the desired level of the global logging module. """
+    """Set the desired level of the global logging module."""
     log.setLevel(level)
-
 
 
 @click.group()
 def cli():
-    """ 🚀 DRIVE, managing autonomous LLM agents made easy! """
+    """🚀 DRIVE, managing autonomous LLM agents made easy!"""
     pass
 
 
 # Register the grouped `click` commands to the `cli` entry point.
 for group in commands.groups:
     cli.add_command(group)
-

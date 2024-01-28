@@ -39,7 +39,7 @@ class Agent(object):
         """ """
 
         pass
-    
+
     def handle_message(self, msg: Message) -> None:
         """Here the developer has to specify what to do on a new Kafka message."""
         raise NotImplementedError
@@ -57,4 +57,3 @@ class Agent(object):
                 log.error(f"consumer error: {msg.error()}")
 
             self.handle_message(msg)
-

@@ -27,7 +27,10 @@ Last updated: 2024-01-24
 
 from pathlib import Path
 
-__all__ = ("default_agents_path", "default_drive_path",)
+__all__ = (
+    "default_agents_path",
+    "default_drive_path",
+)
 
 
 def default_agents_path() -> Path:
@@ -40,5 +43,3 @@ def default_drive_path() -> Path:
     """ """
 
     return Path.home() / ".drive"
-
-

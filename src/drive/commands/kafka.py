@@ -36,25 +36,29 @@ log = logging.getLogger(__name__)
 
 @click.group()
 def kafka():
-    """ 🔗 Tools to manage your Kafka cluster. """
+    """🔗 Tools to manage your Kafka cluster."""
     pass
 
 
 @kafka.command()
 def start():
-    """ 🟢 Start the Kafka cluster. """
+    """🟢 Start the Kafka cluster."""
 
     log.info("starting the Kafka server...")
-    os.system('su - kafka -c "kafka/bin/kafka-server-start.sh kafka/config/kraft/server.properties &"')
+    os.system(
+        'su - kafka -c "kafka/bin/kafka-server-start.sh kafka/config/kraft/server.properties &"'
+    )
     log.info("OK!")
 
 
 @kafka.command()
 def stop():
-    """ 🔴 Stop the Kafka cluster. """
+    """🔴 Stop the Kafka cluster."""
 
     log.info("stopping the Kafka server...")
-    os.system('su - kafka -c "kafka/bin/kafka-server-stop.sh kafka/config/kraft/server.properties &"')
+    os.system(
+        'su - kafka -c "kafka/bin/kafka-server-stop.sh kafka/config/kraft/server.properties &"'
+    )
     log.info("OK!")
 
 
