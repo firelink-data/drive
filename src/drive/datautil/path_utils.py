@@ -22,30 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 File created: 2024-01-23
-Last updated: 2024-01-23
+Last updated: 2024-01-24
 """
 
-import logging
-import os
-import click
-from drive import commands
+from pathlib import Path
+
+__all__ = (
+    "default_agents_path",
+    "default_drive_path",
+)
 
 
-log = logging.getLogger(__name__)
-log.setLevel(os.getenv("LOGLEVEL", logging.INFO))
+def default_agents_path() -> Path:
+    """ """
+
+    return default_drive_path() / "agents"
 
 
-def set_log_level(level: int) -> None:
-    """Set the desired level of the global logging module."""
-    log.setLevel(level)
+def default_drive_path() -> Path:
+    """ """
 
-
-@click.group()
-def cli():
-    """🚀 DRIVE, managing autonomous LLM agents made easy!"""
-    pass
-
-
-# Register the grouped `click` commands to the `cli` entry point.
-for group in commands.groups:
-    cli.add_command(group)
+    return Path.home() / ".drive"

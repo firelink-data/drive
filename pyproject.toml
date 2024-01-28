@@ -17,8 +17,18 @@ repository = "https://github.com/firelink-data/drive"
 "Homepage" = "https://github.com/firelink-data/drive"
 "Bug tracker" = "https://github.com/firelink-data/drive/issues"
 
+
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
+click = "^8.1.7"
+confluent-kafka = "^2.3.0"
+langchain = "^0.1.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.12.1"
+ruff = "^0.1.14"
+pytest = "^7.4.4"
+pyclean = "^2.7.6"
 
 
 [build-system]

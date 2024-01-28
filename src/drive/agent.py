@@ -21,31 +21,39 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-File created: 2024-01-23
-Last updated: 2024-01-23
+File created: 2024-01-26
+Last updated: 2024-01-26
 """
 
 import logging
-import os
-import click
-from drive import commands
-
+from confluent_kafka import Message
+from typing import Collection
 
 log = logging.getLogger(__name__)
-log.setLevel(os.getenv("LOGLEVEL", logging.INFO))
 
 
-def set_log_level(level: int) -> None:
-    """Set the desired level of the global logging module."""
-    log.setLevel(level)
+class Agent(object):
+    """ """
 
+    def __init__(self, topics: Collection[str]):
+        """ """
 
-@click.group()
-def cli():
-    """🚀 DRIVE, managing autonomous LLM agents made easy!"""
-    pass
+        pass
 
+    def handle_message(self, msg: Message) -> None:
+        """Here the developer has to specify what to do on a new Kafka message."""
+        raise NotImplementedError
 
-# Register the grouped `click` commands to the `cli` entry point.
-for group in commands.groups:
-    cli.add_command(group)
+    def run(self, *args, **kwargs) -> None:
+        """This is the main execution loop of an Agent."""
+
+        while True:
+            msg = self._consumer.poll(self._poll_timeout)
+
+            if msg is None:
+                continue
+
+            if msg.error():
+                log.error(f"consumer error: {msg.error()}")
+
+            self.handle_message(msg)

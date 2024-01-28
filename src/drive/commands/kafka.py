@@ -28,24 +28,38 @@ Last updated: 2024-01-23
 import logging
 import os
 import click
-from drive import commands
 
+__all__ = ("kafka_group",)
 
 log = logging.getLogger(__name__)
-log.setLevel(os.getenv("LOGLEVEL", logging.INFO))
-
-
-def set_log_level(level: int) -> None:
-    """Set the desired level of the global logging module."""
-    log.setLevel(level)
 
 
 @click.group()
-def cli():
-    """🚀 DRIVE, managing autonomous LLM agents made easy!"""
+def kafka():
+    """🔗 Tools to manage your Kafka cluster."""
     pass
 
 
-# Register the grouped `click` commands to the `cli` entry point.
-for group in commands.groups:
-    cli.add_command(group)
+@kafka.command()
+def start():
+    """🟢 Start the Kafka cluster."""
+
+    log.info("starting the Kafka server...")
+    os.system(
+        'su - kafka -c "kafka/bin/kafka-server-start.sh kafka/config/kraft/server.properties &"'
+    )
+    log.info("OK!")
+
+
+@kafka.command()
+def stop():
+    """🔴 Stop the Kafka cluster."""
+
+    log.info("stopping the Kafka server...")
+    os.system(
+        'su - kafka -c "kafka/bin/kafka-server-stop.sh kafka/config/kraft/server.properties &"'
+    )
+    log.info("OK!")
+
+
+kafka_group = kafka

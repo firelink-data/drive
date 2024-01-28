@@ -22,30 +22,54 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 File created: 2024-01-23
-Last updated: 2024-01-23
+Last updated: 2024-01-27
 """
 
-import logging
-import os
 import click
-from drive import commands
+import os
+import subprocess
+
+__all__ = ("agent_group",)
 
 
-log = logging.getLogger(__name__)
-log.setLevel(os.getenv("LOGLEVEL", logging.INFO))
-
-
-def set_log_level(level: int) -> None:
-    """Set the desired level of the global logging module."""
-    log.setLevel(level)
-
-
-@click.group()
-def cli():
-    """🚀 DRIVE, managing autonomous LLM agents made easy!"""
+@click.group(name="agent")
+def agent():
+    """🤖 Tools to manage your LLM agents."""
     pass
 
 
-# Register the grouped `click` commands to the `cli` entry point.
-for group in commands.groups:
-    cli.add_command(group)
+@agent.command(name="create")
+def create():
+    """📝 Create a new agent container, either custom or from templates."""
+    pass
+
+
+@agent.command("build")
+def build():
+    """👷 Build the docker container for the agent."""
+
+    os.system("sudo docker build -t agent-bond ~/.drive/agents/Bond")
+
+
+@agent.command(name="start")
+def start():
+    """🟢 Start an existing agent."""
+
+    kafka_server_ip = subprocess.getoutput(
+        "/sbin/ip a | awk '/inet 192/ { print $2 }'",
+    ).split("/")[0]
+
+    print(kafka_server_ip)
+
+    os.system(
+        f"sudo docker run --env KAFKA_SERVER_IP={kafka_server_ip} --env KAFKA_SERVER_PORT=19092 agent-bond"
+    )
+
+
+@agent.command(name="stop")
+def stop():
+    """🔴 Stop an existing agent that is alive."""
+    pass
+
+
+agent_group = agent
