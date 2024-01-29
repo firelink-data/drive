@@ -29,7 +29,7 @@
 # Docker containers, and set your (current) localhost ip on the Docker listener.
 #
 # File created: 2024-01-24
-# Last updated: 2024-01-28
+# Last updated: 2024-01-29
 #
 
 if [[ $EUID -ne 0 ]]; then
@@ -51,7 +51,7 @@ function query_user()
         read -p " Proceed with doing this? [y\\n] " yn
         case $yn in
             [Yy]* ) printf "$2\n"; break;;
-            [Nn]* ) printf " ❌ You chose 'no', exiting..."; exit;;
+            [Nn]* ) printf " ❌ You chose 'no', exiting...\n"; exit;;
             * ) printf " 🚨 Please answer either yes or no.\n";;
         esac
     done
@@ -70,7 +70,7 @@ query_user "\n ✅ Downloading Apache Kafka version 3.6.1 for Scala 2.13." " Sit
 su - kafka bash -c 'mkdir -p ~/Downloads; curl "https://downloads.apache.org/kafka/3.6.1/kafka_2.13-3.6.1.tgz" -o ~/Downloads/kafka.tgz; mkdir ~/kafka && cd ~/kafka; tar -xvzf ~/Downloads/kafka.tgz --strip 1'
 
 query_user "\n ✅ Setting up Kafka directory and KRaft log paths." " Cool!"
-env KAFKA_LIB_PATH=$KAFKA_LIB_PATH KAFKA_COMBINED_LOG_PATH=$KAFKA_COMBINED_LOG_PATH KAFKA_METADATA_LOG_PATH=$KAFKA_METADATA_LOG_PATH sudo -Eu kafka bash -c 'mkdir -p $KAFKA_LIB_PATH; mkdir -p $KAFKA_COMBINED_LOG_PATH; mkdir -p /var/lib/kafka/metadata-logs; chown -R kafka:kafka $KAFKA_LIB_PATH'
+env KAFKA_LIB_PATH=$KAFKA_LIB_PATH KAFKA_COMBINED_LOG_PATH=$KAFKA_COMBINED_LOG_PATH KAFKA_METADATA_LOG_PATH=$KAFKA_METADATA_LOG_PATH sudo -E su -c 'mkdir -p $KAFKA_LIB_PATH; mkdir -p $KAFKA_COMBINED_LOG_PATH; mkdir -p $KAFKA_METADATA_LOG_PATH; chown -R kafka:kafka $KAFKA_LIB_PATH'
 
 query_user "\n ✅ Setting up your Kafka configuration for localhost and Docker compatibility." " Thanks! Soon done..."
 env KAFKA_CLUSTER_IP=$KAFKA_CLUSTER_IP su kafka bash -c 'cd ~/kafka/config/kraft; echo "process.roles=broker,controller" > server.properties; echo "node.id=1" >> server.properties; echo "controller.quorum.voters=1@localhost:9093" >> server.properties; echo "listeners=PLAINTEXT://:9092,CONTROLLER://:9093,DOCKER_CLIENT://$KAFKA_CLUSTER_IP:19092" >> server.properties; echo "inter.broker.listener.name=PLAINTEXT" >> server.properties; echo "advertised.listeners=PLAINTEXT://localhost:9092,DOCKER_CLIENT://$KAFKA_CLUSTER_IP:19092" >> server.properties; echo "controller.listener.names=CONTROLLER" >> server.properties; echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL,DOCKER_CLIENT:PLAINTEXT" >> server.properties; echo "num.network.threads=3" >> server.properties; echo "num.io.threads=8" >> server.properties; echo "socket.send.buffer.bytes=102400" >> server.properties; echo "socket.receive.buffer.bytes=102400" >> server.properties; echo "socket.request.max.bytes=104857600" >> server.properties; echo "log.dirs=/var/lib/kafka/kraft-combined-logs" >> server.properties; echo "num.partitions=1" >> server.properties; echo "num.recovery.threads.per.data.dir=1" >> server.properties; echo "offsets.topic.replication.factor=1" >> server.properties; echo "transaction.state.log.replication.factor=1" >> server.properties; echo "transaction.state.log.min.isr=1" >> server.properties; echo "log.retention.hours=-1" >> server.properties; echo "log.segment.bytes=1073741824" >> server.properties; echo "log.retention.check.interval.ms=300000" >> server.properties'
