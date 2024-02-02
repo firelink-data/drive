@@ -26,7 +26,7 @@ langchain = "^0.1.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.1.1"
-ruff = "^0.1.14"
+ruff = "^0.2.0"
 pytest = "^8.0.0"
 pyclean = "^2.7.6"
 
