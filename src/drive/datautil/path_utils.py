@@ -22,24 +22,38 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 File created: 2024-01-23
-Last updated: 2024-01-24
+Last updated: 2024-02-08
 """
 
 from pathlib import Path
 
 __all__ = (
     "default_agents_path",
-    "default_drive_path",
+    "default_path",
 )
 
 
 def default_agents_path() -> Path:
-    """ """
+    """Returns the default path to any created Agents.
 
-    return default_drive_path() / "agents"
+    Returns
+    -------
+    Path
+        Either a POSIX path or a WindowsPath depending on the system.
+
+    """
+
+    return default_path() / "agents"
 
 
-def default_drive_path() -> Path:
-    """ """
+def default_path() -> Path:
+    """Returns the default path for the module.
+
+    Returns
+    -------
+    Path
+        Either a POSIX path or a WindowsPath depending on the system.
+
+    """
 
     return Path.home() / ".drive"

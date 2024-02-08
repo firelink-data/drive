@@ -22,13 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 File created: 2024-01-23
-Last updated: 2024-01-23
+Last updated: 2024-04-08
 """
 
-import logging
-import os
 import click
+import os
+import logging
+from drive import agent  # noqa
 from drive import commands
+from drive import docker  # noqa
+from drive import kafka  # noqa
 
 
 log = logging.getLogger(__name__)

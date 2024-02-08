@@ -21,39 +21,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-File created: 2024-01-26
-Last updated: 2024-01-26
+File created: 2024-02-08
+Last updated: 2024-02-08
 """
 
 import logging
-from confluent_kafka import Message
-from typing import Collection
+import sys
+from agent_src import MasterAgent
 
+logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
 
-class Agent(object):
-    """ """
+DEFAULT_CONSUME_TOPICS = [
+    "drive.user.master.dispatch",
+    "drive.master.searcher.dispatch",
+    "drive.master.mathematician.dispatch",
+]
 
-    def __init__(self, topics: Collection[str]):
-        """ """
+DEFAULT_PRODUCE_TOPICS = [
+    "drive.user.master.response",
+    "drive.master.searcher.response",
+    "drive.master.mathematician.dispatch",
+]
 
-        pass
 
-    def handle_message(self, msg: Message) -> None:
-        """Here the developer has to specify what to do on a new Kafka message."""
-        raise NotImplementedError
+if __name__ == "__main__":
+    """The main Kafka polling loop is implemented in the `Agent.run()` method."""
 
-    def run(self, *args, **kwargs) -> None:
-        """This is the main execution loop of an Agent."""
-
-        while True:
-            msg = self._consumer.poll(self._poll_timeout)
-
-            if msg is None:
-                continue
-
-            if msg.error():
-                log.error(f"consumer error: {msg.error()}")
-
-            self.handle_message(msg)
+    agent = MasterAgent(
+        consume_topics=DEFAULT_CONSUME_TOPICS,
+        produce_topics=DEFAULT_PRODUCE_TOPICS,
+    )
+    sys.exit(agent.run())
