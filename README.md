@@ -3,8 +3,11 @@
 <br/>
 
 <a href="https://github.com/firelink-data/drive">
-<img align="center" width=75% src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Drive_2011_Film.svg/3000px-Drive_2011_Film.svg.png"></img>
+<img align="center" width=50% src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Drive_2011_Film.svg/3000px-Drive_2011_Film.svg.png"></img>
 </a>
+
+<br/>
+<br/>
 
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 [![Lint style: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
