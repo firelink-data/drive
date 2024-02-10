@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 File created: 2024-02-08
-Last updated: 2024-02-08
+Last updated: 2024-02-10
 """
 
 import logging
@@ -34,15 +34,13 @@ log = logging.getLogger(__name__)
 
 
 DEFAULT_CONSUME_TOPICS = [
-    "drive.user.master.dispatch",
-    "drive.master.searcher.dispatch",
-    "drive.master.mathematician.dispatch",
+    "drive.user.master.query",
+    "drive.master.searcher.response",
 ]
 
 DEFAULT_PRODUCE_TOPICS = [
     "drive.user.master.response",
-    "drive.master.searcher.response",
-    "drive.master.mathematician.dispatch",
+    "drive.master.searcher.query",
 ]
 
 
