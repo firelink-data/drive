@@ -22,14 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 File created: 2024-02-08
-Last updated: 2024-02-08
+Last updated: 2024-02-10
 """
 
 import logging
 import os
 from confluent_kafka import Consumer, Message, Producer
 from confluent_kafka.admin import AdminClient
-from typing import List
+from typing import List, Optional
 
 log = logging.getLogger(__name__)
 
@@ -39,6 +39,7 @@ class Agent(object):
 
     def __init__(self,
         name: str,
+        *,
         consumer_topics: List[str],
         producer_topics: List[str],
         **kwargs,
@@ -83,14 +84,35 @@ class Agent(object):
         config["consumer.group.id"] = kafka_consumer_group_id
         config["consumer.auto.offset.reset"] = kafka_auto_offset_reset
 
+        # What this does is prepare the class for handling every type
+        # of consumer event that can happen. Given that the agent 
+        # receives a message on topic `drive.master.searcher.dispatch`,
+        # the agent has to implement a function called `master_searcher_dispatch`
+        # which will propagate work to the Searcher from the Master agent.
+        message_dispatch_fn = {
+            topic.replace(".", "_").replace("drive", "")
+            for topic in consumer_topics
+        }
+
         self._config = config
         self._admin_client = admin_client
         self._producer_client = producer_client
         self._consumer_client = consumer_client
+        self._message_dispatch_fn = message_dispatch_fn
 
-    def handle_message(self, msg: Message):
-        """Each created agent has to implement logic to handle messages here."""
-        raise NotImplementedError
+    def handle_message(self, msg: Message) -> Optional[ValueError]:
+        """ """
+        
+        if msg.value() is None:
+            raise ValueError("No value on the message, something is spooky...")
+
+        topic_fn = msg.topic().replace(".", "_").replace("drive", "")
+        self._message_dispatch_fn.get(topic_fn, None)
+
+        if topic_fn is None:
+            raise ValueError("Could not find a function to dispatch to from topic name!")
+
+        topic_fn(msg.value())
 
     def run(self) -> int:
         """ """
