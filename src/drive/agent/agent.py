@@ -37,7 +37,8 @@ log = logging.getLogger(__name__)
 class Agent(object):
     """ """
 
-    def __init__(self,
+    def __init__(
+        self,
         name: str,
         *,
         consumer_topics: List[str],
@@ -56,21 +57,27 @@ class Agent(object):
         )
         bootstrap_server = f"{kafka_server_ip}:{kafka_server_port}"
 
-        admin_client = AdminClient({
-            "bootstrap.servers": bootstrap_server,
-        })
+        admin_client = AdminClient(
+            {
+                "bootstrap.servers": bootstrap_server,
+            }
+        )
 
-        producer_client = Producer({
-            "bootstrap.servers": bootstrap_server,
-        })
+        producer_client = Producer(
+            {
+                "bootstrap.servers": bootstrap_server,
+            }
+        )
 
         kafka_consumer_group_id = os.environ.get("KAFKA_CONSUMER_GROUP_ID", "1")
         kafka_auto_offset_reset = os.environ.get("KAFKA_AUTO_OFFSET_RESET", "earliest")
-        consumer_client = Consumer({
-            "bootstrap.servers": bootstrap_server,
-            "group.id": kafka_consumer_group_id,
-            "auto.offset.reset": kafka_auto_offset_reset,
-        })
+        consumer_client = Consumer(
+            {
+                "bootstrap.servers": bootstrap_server,
+                "group.id": kafka_consumer_group_id,
+                "auto.offset.reset": kafka_auto_offset_reset,
+            }
+        )
 
         consumer_client.subscribe(consumer_topics)
 
@@ -85,13 +92,12 @@ class Agent(object):
         config["consumer.auto.offset.reset"] = kafka_auto_offset_reset
 
         # What this does is prepare the class for handling every type
-        # of consumer event that can happen. Given that the agent 
+        # of consumer event that can happen. Given that the agent
         # receives a message on topic `drive.master.searcher.dispatch`,
         # the agent has to implement a function called `master_searcher_dispatch`
         # which will propagate work to the Searcher from the Master agent.
         message_dispatch_fn = {
-            topic.replace(".", "_").replace("drive", "")
-            for topic in consumer_topics
+            topic.replace(".", "_").replace("drive", "") for topic in consumer_topics
         }
 
         self._config = config
@@ -102,7 +108,7 @@ class Agent(object):
 
     def handle_message(self, msg: Message) -> Optional[ValueError]:
         """ """
-        
+
         if msg.value() is None:
             raise ValueError("No value on the message, something is spooky...")
 
@@ -110,7 +116,9 @@ class Agent(object):
         self._message_dispatch_fn.get(topic_fn, None)
 
         if topic_fn is None:
-            raise ValueError("Could not find a function to dispatch to from topic name!")
+            raise ValueError(
+                "Could not find a function to dispatch to from topic name!"
+            )
 
         topic_fn(msg.value())
 
@@ -135,4 +143,3 @@ class Agent(object):
             finally:
                 log.info("Shutting down agent! Bye.")
                 return 0
-

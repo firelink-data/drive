@@ -39,7 +39,7 @@ class Client(object):
     def __new__(cls, *args, **kwargs) -> Client:
         """Setup for a singleton `Client` instance."""
 
-        if not hasattr(cls, '_self'):
+        if not hasattr(cls, "_self"):
             cls._self = super().__new__(cls)
 
         return cls._self
@@ -53,4 +53,3 @@ class Client(object):
         """ """
 
         pass
-

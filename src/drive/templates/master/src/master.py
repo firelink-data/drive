@@ -48,4 +48,3 @@ class MasterAgent(Agent):
     def master_searcher_response(self, msg: str):
         """ """
         pass
-
