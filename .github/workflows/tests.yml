@@ -6,11 +6,13 @@ on:
     paths:
       - 'src/**'
       - '.github/**'
+      - 'tests/**'
   push:
     branches: [ main ]
     paths:
       - 'src/**'
       - '.github/**'
+      - 'tests/**'
 
 jobs:
   tests:
