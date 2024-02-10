@@ -1,0 +1,39 @@
+name: CD
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  deploy:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        python: [ '3.11.x' ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: 'pip'
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v3
+      - name: Setup poetry cache
+        uses: actions/cache@v4
+        with:
+          path: ./.venv
+          key: venv-${{ hashFiles('poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install --no-root
+      - name: Build drive
+        run: poetry build --format wheel
+        continue-on-error: false
+      - name: Publish to PyPI
+        uses: JRubics/poetry-publish@v1.17
+        with:
+          pypi_token: ${{ secrets.PYPI_DRIVE_TOKEN }}
+          ignore_dev_requirements: 'yes'
+
