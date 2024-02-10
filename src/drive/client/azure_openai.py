@@ -43,4 +43,3 @@ class AzureOpenAIClient(Client):
             emb_type=AzureOpenAIEmbeddings,
             **kwargs,
         )
-

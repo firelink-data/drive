@@ -47,7 +47,9 @@ def agent():
 
 @agent.command(name="create")
 @click.argument(
-    "name", nargs=1, required=True,
+    "name",
+    nargs=1,
+    required=True,
 )
 @click.option(
     "-c",
