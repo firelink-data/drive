@@ -3,7 +3,7 @@
 <br/>
 
 <a href="https://github.com/firelink-data/drive">
-<img align="center" width=32% src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Drive_2011_Film.svg/3000px-Drive_2011_Film.svg.png"></img>
+<img align="center" width=35% src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Drive_2011_Film.svg/3000px-Drive_2011_Film.svg.png"></img>
 </a>
 
 <br/>
