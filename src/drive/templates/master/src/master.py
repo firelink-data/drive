@@ -21,39 +21,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-File created: 2024-01-23
-Last updated: 2024-02-08
+File created: 2024-02-08
+Last updated: 2024-02-10
 """
 
-from pathlib import Path
+import logging
+from drive.agent import Agent
+from drive.client import OpenAIClient
 
-__all__ = (
-    "default_agents_path",
-    "default_path",
-)
+log = logging.getLogger(__name__)
 
-
-def default_agents_path() -> Path:
-    """Returns the default path to any created Agents.
-
-    Returns
-    -------
-    Path
-        Either a POSIX path or a WindowsPath depending on the system.
-
-    """
-
-    return default_path() / "agents"
+# This needs config!
+client = OpenAIClient()
 
 
-def default_path() -> Path:
-    """Returns the default path for the module.
+class MasterAgent(Agent):
+    """ """
 
-    Returns
-    -------
-    Path
-        Either a POSIX path or a WindowsPath depending on the system.
+    def __init__(self, *args, **kwargs):
+        super(MasterAgent, self).__init__("Master", *args, **kwargs)
 
-    """
+    def user_master_query(self, msg: str):
+        """ """
+        pass
 
-    return Path.home() / ".drive"
+    def master_searcher_response(self, msg: str):
+        """ """
+        pass
+

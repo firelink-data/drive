@@ -22,14 +22,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 File created: 2024-01-23
-Last updated: 2024-01-27
+Last updated: 2024-02-08
 """
 
 import click
 import os
 import subprocess
+import logging
+from drive.agent import (
+    create_custom_agent,
+    create_template_agent,
+)
 
 __all__ = ("agent_group",)
+
+log = logging.getLogger(__name__)
 
 
 @click.group(name="agent")
@@ -39,9 +46,25 @@ def agent():
 
 
 @agent.command(name="create")
-def create():
+@click.argument(
+    "name", nargs=1, required=True,
+)
+@click.option(
+    "-c",
+    "--custom",
+    "custom",
+    is_flag=True,
+    show_default=True,
+    default=False,
+)
+def create(
+    name: str,
+    custom: bool,
+):
     """📝 Create a new agent container, either custom or from templates."""
-    pass
+
+    create_fn = create_custom_agent if custom else create_template_agent
+    create_fn(name)
 
 
 @agent.command("build")

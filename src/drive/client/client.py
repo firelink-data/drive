@@ -21,39 +21,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-File created: 2024-01-23
-Last updated: 2024-02-08
+File created: 2024-02-10
+Last updated: 2024-02-10
 """
 
-from pathlib import Path
+from __future__ import annotations
 
-__all__ = (
-    "default_agents_path",
-    "default_path",
-)
+import logging
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
-
-def default_agents_path() -> Path:
-    """Returns the default path to any created Agents.
-
-    Returns
-    -------
-    Path
-        Either a POSIX path or a WindowsPath depending on the system.
-
-    """
-
-    return default_path() / "agents"
+log = logging.getLogger(__name__)
 
 
-def default_path() -> Path:
-    """Returns the default path for the module.
+class Client(object):
+    """ """
 
-    Returns
-    -------
-    Path
-        Either a POSIX path or a WindowsPath depending on the system.
+    def __new__(cls, *args, **kwargs) -> Client:
+        """Setup for a singleton `Client` instance."""
 
-    """
+        if not hasattr(cls, '_self'):
+            cls._self = super().__new__(cls)
 
-    return Path.home() / ".drive"
+        return cls._self
+
+    def __init__(
+        self,
+        llm_type: ChatOpenAI,
+        emb_type: OpenAIEmbeddings,
+        **kwargs,
+    ):
+        """ """
+
+        pass
+
