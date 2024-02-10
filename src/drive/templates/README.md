@@ -1,28 +1,28 @@
 ## Agent templates
 
-The kafka topics should adhere to the following naming convention:
+Currently only one template agent is available called `master` which job is to take
+input from the user and dispatch work to other agents.
 
+## Topic naming convention
 
-### User - Agent:
+The kafka topics should adhere to the following naming conventions:
 
-Consume:
-- "agent.<name>.query"
-- "agent.master.query"
+**Consumer topics**:
+- "drive.<sender>.<receiver>.query"
+- "drive.<receiver>.<sender>.response"
 
-Produce:
-- "agent.<name>.response"
-- "agent.master.response"
+**Producer topics**:
+- "drive.<receiver>.<sender>.response",
+- "drive.<sender>.<receiver>.query"
 
-### Agent - Agent:
+For example with two agents available called `master` and `searcher`, the topic
+config could look like:
 
-- "agent.<producer-name>.<consumer-name>.dispatch"
+**Consumer topics**:
+- "drive.user.master.query"
+- "drive.master.searcher.response"
 
-- "agent.master.searcher.dispatch"
-In this case the Searcher agent would be consuming from this topic
-and master would be the producer.
-
-- "agent.<consumer-name>.<producer-name>.response"
-- "agent.master.searcher.response"
-In this case the Master agent would be consuming from this topic,
-and listening for response from its initial query.
+**Producer topics**:
+- "drive.user.master.response"
+- "drive.master.searcher.query"
 
