@@ -28,7 +28,7 @@ langchain = "^0.1.2"
 black = "^24.1.1"
 ruff = "^0.2.1"
 pytest = "^8.0.0"
-pyclean = "^2.7.6"
+pyclean = "^3.0.0"
 pytest-cov = "^4.1.0"
 coverage = "^7.4.1"
 
